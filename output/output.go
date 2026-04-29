@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/rashee/all-bench/runner"
+	"github.com/RashRAJ/all-bench/runner"
 )
 
 func Print(r *runner.Result, format string) {

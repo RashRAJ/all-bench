@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/rashee/all-bench/cmd"
+	"github.com/RashRAJ/all-bench/cmd"
 )
 
 var version = "dev"

@@ -1,4 +1,4 @@
-module github.com/rashee/all-bench
+module github.com/RashRAJ/all-bench
 
 go 1.23.5
 

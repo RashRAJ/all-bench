@@ -1,7 +1,7 @@
 package runner
 
 import (
-	"github.com/rashee/all-bench/config"
+	"github.com/RashRAJ/all-bench/config"
 )
 
 // Result holds normalized metrics from any runner.

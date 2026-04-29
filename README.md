@@ -18,18 +18,18 @@ A unified CLI wrapper for LLM benchmarking tools. Configure once in YAML, run an
 
 **Pre-built binaries (recommended)** — no Go required:
 
-Download the latest release for your platform from the [Releases](https://github.com/rashee/all-bench/releases) page, extract the archive, and place `all-bench` somewhere on your `PATH`.
+Download the latest release for your platform from the [Releases](https://github.com/RashRAJ/all-bench/releases) page, extract the archive, and place `all-bench` somewhere on your `PATH`.
 
 **Via `go install`:**
 
 ```bash
-go install github.com/rashee/all-bench@latest
+go install github.com/RashRAJ/all-bench@latest
 ```
 
 **From source:**
 
 ```bash
-git clone https://github.com/rashee/all-bench
+git clone https://github.com/RashRAJ/all-bench
 cd all-bench
 go build -o all-bench .
 ```

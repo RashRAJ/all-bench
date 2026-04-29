@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/rashee/all-bench/config"
+	"github.com/RashRAJ/all-bench/config"
 )
 
 type AiPerf struct{}

@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/rashee/all-bench/config"
-	"github.com/rashee/all-bench/output"
-	"github.com/rashee/all-bench/runner"
+	"github.com/RashRAJ/all-bench/config"
+	"github.com/RashRAJ/all-bench/output"
+	"github.com/RashRAJ/all-bench/runner"
 )
 
 var (
