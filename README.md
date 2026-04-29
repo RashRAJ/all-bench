@@ -11,11 +11,22 @@ A unified CLI wrapper for LLM benchmarking tools. Configure once in YAML, run an
 
 ## Requirements
 
-- Go 1.21+
 - Python 3.11 or 3.12 (3.14 is not supported by aiperf/vlmbench)
 - A running inference server (vLLM, Ollama, etc.)
 
 ## Install
+
+**Pre-built binaries (recommended)** — no Go required:
+
+Download the latest release for your platform from the [Releases](https://github.com/rashee/all-bench/releases) page, extract the archive, and place `all-bench` somewhere on your `PATH`.
+
+**Via `go install`:**
+
+```bash
+go install github.com/rashee/all-bench@latest
+```
+
+**From source:**
 
 ```bash
 git clone https://github.com/rashee/all-bench
@@ -26,20 +37,23 @@ go build -o all-bench .
 ## Quick start
 
 ```bash
+# check version
+all-bench --version
+
 # check which runners are installed
-./all-bench list
+all-bench list
 
 # run with defaults from all-bench.yaml
-./all-bench run
+all-bench run
 
 # run a specific runner
-./all-bench run --runner aiperf
+all-bench run --runner aiperf
 
 # override output format
-./all-bench run --format json
+all-bench run --format json
 
 # write results to a file
-./all-bench run --out results.json
+all-bench run --out results.json
 ```
 
 ## Configuration

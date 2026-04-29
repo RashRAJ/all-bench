@@ -9,6 +9,10 @@ var rootCmd = &cobra.Command{
 	Short: "A unified wrapper for LLM benchmarking tools",
 }
 
+func SetVersion(v string) {
+	rootCmd.Version = v
+}
+
 func Execute() error {
 	return rootCmd.Execute()
 }
