@@ -1,0 +1,22 @@
+# binary
+all-bench
+
+# python envs
+venv/
+venv312/
+.venv/
+__pycache__/
+*.pyc
+
+# benchmark artifacts
+artifacts/
+results.json
+
+# editor
+.DS_Store
+.idea/
+.vscode/
+
+# go
+*.test
+*.out
