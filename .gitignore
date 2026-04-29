@@ -20,3 +20,4 @@ results.json
 # go
 *.test
 *.out
+dist/
