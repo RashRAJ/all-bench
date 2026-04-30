@@ -43,8 +43,12 @@ all-bench --version
 # check which runners are installed
 all-bench list
 
-# run with defaults from all-bench.yaml
+# run with all-bench.yaml in the current directory
 all-bench run
+
+# point to a config file anywhere
+all-bench run --config /path/to/all-bench.yaml
+all-bench run -c all-bench.yaml
 
 # run a specific runner
 all-bench run --runner aiperf
