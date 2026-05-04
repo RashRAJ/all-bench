@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/RashRAJ/all-bench/config"
+	"github.com/RashRAJ/all-bench/history"
 	"github.com/RashRAJ/all-bench/output"
 	"github.com/RashRAJ/all-bench/runner"
 )
@@ -52,6 +53,8 @@ func runBench(cmd *cobra.Command, args []string) error {
 		outFile = flagOutFile
 	}
 
+	snap := history.New(cfg)
+
 	for _, r := range runners {
 		fmt.Printf("Running %s...\n", r.Name())
 		results, err := r.Run(cfg)
@@ -73,6 +76,13 @@ func runBench(cmd *cobra.Command, args []string) error {
 			}
 			fmt.Printf("Results written to %s\n", outFile)
 		}
+
+		raws, _ := r.RawOutput(cfg) // best-effort; don't fail the run if history collection fails
+		snap.AddRunner(r.Name(), raws, results)
+	}
+
+	if err := history.Save(snap); err != nil {
+		fmt.Printf("warning: could not save run history: %v\n", err)
 	}
 
 	return nil

@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"encoding/json"
+
 	"github.com/RashRAJ/all-bench/config"
 )
 
@@ -43,4 +45,7 @@ type Runner interface {
 	HasNativeOutput() bool
 	// Run executes the benchmark and returns one result per run/concurrency level.
 	Run(cfg *config.Config) ([]*Result, error)
+	// RawOutput returns the raw JSON bytes from the profiler's export file(s).
+	// Called after Run(). Multiple entries are returned for sweep runs (e.g. vlmbench concurrency sweeps).
+	RawOutput(cfg *config.Config) ([]json.RawMessage, error)
 }

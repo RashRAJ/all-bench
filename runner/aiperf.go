@@ -77,6 +77,18 @@ func buildAiPerfArgs(cfg *config.Config) []string {
 	return args
 }
 
+func (a *AiPerf) RawOutput(cfg *config.Config) ([]json.RawMessage, error) {
+	path, err := findAiPerfExportJSON(cfg)
+	if err != nil {
+		return nil, err
+	}
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("reading aiperf export: %w", err)
+	}
+	return []json.RawMessage{json.RawMessage(data)}, nil
+}
+
 // findAiPerfExportJSON globs artifacts/ for the newest directory matching the model.
 func findAiPerfExportJSON(cfg *config.Config) (string, error) {
 	modelSanitized := strings.ReplaceAll(cfg.Defaults.Model, "/", "_")

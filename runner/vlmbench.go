@@ -11,7 +11,9 @@ import (
 	"github.com/RashRAJ/all-bench/config"
 )
 
-type VLMBench struct{}
+type VLMBench struct {
+	lastRunAt time.Time
+}
 
 func (v *VLMBench) Name() string { return "vlmbench" }
 
@@ -33,7 +35,7 @@ func (v *VLMBench) Run(cfg *config.Config) ([]*Result, error) {
 
 	args := buildVLMArgs(cfg)
 
-	startedAt := time.Now()
+	v.lastRunAt = time.Now()
 
 	cmd := exec.Command("vlmbench", args...)
 	cmd.Stdout = os.Stdout
@@ -43,7 +45,7 @@ func (v *VLMBench) Run(cfg *config.Config) ([]*Result, error) {
 		return nil, fmt.Errorf("vlmbench exited: %w", err)
 	}
 
-	return findAndParseVLMResults(cfg, startedAt)
+	return findAndParseVLMResults(cfg, v.lastRunAt)
 }
 
 func buildVLMArgs(cfg *config.Config) []string {
@@ -85,6 +87,40 @@ func buildVLMArgs(cfg *config.Config) []string {
 	}
 
 	return args
+}
+
+func (v *VLMBench) RawOutput(cfg *config.Config) ([]json.RawMessage, error) {
+	if v.lastRunAt.IsZero() {
+		return nil, fmt.Errorf("vlmbench has not been run yet")
+	}
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return nil, fmt.Errorf("finding home dir: %w", err)
+	}
+	benchDir := filepath.Join(home, ".vlmbench", "benchmarks")
+	entries, err := os.ReadDir(benchDir)
+	if err != nil {
+		return nil, fmt.Errorf("reading %s: %w", benchDir, err)
+	}
+	var outputs []json.RawMessage
+	for _, e := range entries {
+		if e.IsDir() || filepath.Ext(e.Name()) != ".json" {
+			continue
+		}
+		info, err := e.Info()
+		if err != nil {
+			continue
+		}
+		if !info.ModTime().After(v.lastRunAt) {
+			continue
+		}
+		data, err := os.ReadFile(filepath.Join(benchDir, e.Name()))
+		if err != nil {
+			return nil, fmt.Errorf("reading vlmbench export: %w", err)
+		}
+		outputs = append(outputs, json.RawMessage(data))
+	}
+	return outputs, nil
 }
 
 // findAndParseVLMResults collects all JSON files written to ~/.vlmbench/benchmarks/

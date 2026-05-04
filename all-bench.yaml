@@ -3,23 +3,23 @@ defaults:
   output_tokens: 128
 
 runners:
-  - aiperf
-  # - vlmbench
+  # - aiperf
+  - vlmbench
 
 aiperf:
   url: localhost:8000
   endpoint_type: chat
   endpoint: /v1/chat/completions
   streaming: true
-  request_rate: 32
+  request_rate: 35
   request_count: 64
 
 vlmbench:
-  url: http://localhost:8001/v1
+  url: http://localhost:8000/v1
   dataset: hf://vlm-run/FineVision-vlmbench-mini
   dataset_text_col: prompt
   prompt: "Explain GPU observability in 3 sentences."
-  concurrency: "4,8,16"
+  concurrency: "2,4,8"
   max_samples: 64
 
 output:
