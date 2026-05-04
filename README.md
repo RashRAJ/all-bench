@@ -58,6 +58,9 @@ all-bench run --format json
 
 # write results to a file
 all-bench run --out results.json
+
+# compare the last two runs (requires at least two runs)
+all-bench diff
 ```
 
 ## Configuration
@@ -219,6 +222,32 @@ Results written to results.json
 
 > Both runners print their own native output directly. `--format json` or `--out <file>` writes normalized results for scripting or cross-runner comparison.
 
+## Comparing runs
+
+Each `all-bench run` automatically saves a snapshot to `~/.all-bench/history/`. Run `all-bench diff` after at least two runs to see a side-by-side comparison:
+
+```bash
+$ all-bench diff
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Benchmark Diff
+  2026-05-03 14:12:00  →  2026-05-04 09:47:23
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Config Changes
+    vlmbench.concurrency                     4,8,16  →  2,4,8
+
+              VLMBENCH | Key Metrics
+  ┌────────────────────────────────────────┬────────────┬────────────┬────────────┐
+  │ Metric                                 │      Run A │      Run B │     Change │
+  ├────────────────────────────────────────┼────────────┼────────────┼────────────┤
+  │ Time to First Token (ms)               │      72.00 │      58.00 │    -19.4%  │
+  │ Tokens/sec                             │     412.00 │     821.00 │    +99.3%  │
+  └────────────────────────────────────────┴────────────┴────────────┴────────────┘
+```
+
+`diff` also shows a full metrics table (avg, p50, p90, p99, min, max) for every field in the profiler's export, colored green for improvements and red for regressions.
+
 ## Adding a runner
 
 1. Implement the `Runner` interface in `runner/yourrunner.go`:
@@ -229,6 +258,9 @@ type Runner interface {
     InstallHint()     string
     HasNativeOutput() bool   // true = skip all-bench's table, use the tool's own output
     Run(cfg *config.Config) ([]*Result, error)
+    // Called after Run() to collect raw profiler JSON for history/diff.
+    // Return one entry per result level (e.g. one per concurrency value in a sweep).
+    RawOutput(cfg *config.Config) ([]json.RawMessage, error)
 }
 ```
 2. Add a section to `config.Config` for runner-specific fields
@@ -243,9 +275,12 @@ all-bench/
 ├── cmd/
 │   ├── root.go
 │   ├── run.go        # config → runner → output
-│   └── list.go       # show runner install status
+│   ├── list.go       # show runner install status
+│   └── diff.go       # compare last two runs
 ├── config/
 │   └── config.go     # YAML schema
+├── history/
+│   └── history.go    # snapshot save/load and diff logic (~/.all-bench/history/)
 ├── runner/
 │   ├── runner.go     # Runner interface + Result types
 │   ├── aiperf.go
