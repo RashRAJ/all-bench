@@ -3,16 +3,16 @@ defaults:
   output_tokens: 128
 
 runners:
-  # - aiperf
-  - vlmbench
+   - aiperf
+  # - vlmbench
 
 aiperf:
-  url: localhost:8000
+  url: https://3mca5ih1iy239p-8000.proxy.runpod.net/              #localhost:8000
   endpoint_type: chat
   endpoint: /v1/chat/completions
   streaming: true
   request_rate: 35
-  request_count: 64
+  request_count: 70
 
 vlmbench:
   url: http://localhost:8000/v1
