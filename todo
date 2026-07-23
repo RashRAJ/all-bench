@@ -1,2 +1,6 @@
 - get best run config
 - add 1.2x improvement
+- added update command
+- add sglang-bench : https://github.com/sgl-project/genai-bench
+- IBPerf
+- MLPerf
