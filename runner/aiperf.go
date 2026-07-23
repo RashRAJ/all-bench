@@ -24,11 +24,13 @@ func (a *AiPerf) InstallHint() string {
 	return "pip install aiperf  (use a venv: python3 -m venv venv && source venv/bin/activate)"
 }
 
+func (a *AiPerf) PipPackage() string { return "aiperf" }
+
 func (a *AiPerf) HasNativeOutput() bool { return true }
 
 func (a *AiPerf) Run(cfg *config.Config) ([]*Result, error) {
 	if !a.Available() {
-		return nil, fmt.Errorf("aiperf not found on PATH\n\nTo install:\n  %s", a.InstallHint())
+		return nil, fmt.Errorf("aiperf not found on PATH\n\nTo install:\n  %s\n  or run: all-bench install aiperf", a.InstallHint())
 	}
 
 	args := buildAiPerfArgs(cfg)

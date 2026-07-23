@@ -26,11 +26,13 @@ func (v *VLMBench) InstallHint() string {
 	return "pip install vlmbench  (use a venv: python3 -m venv venv && source venv/bin/activate)"
 }
 
+func (v *VLMBench) PipPackage() string { return "vlmbench" }
+
 func (v *VLMBench) HasNativeOutput() bool { return true }
 
 func (v *VLMBench) Run(cfg *config.Config) ([]*Result, error) {
 	if !v.Available() {
-		return nil, fmt.Errorf("vlmbench not found on PATH\n\nTo install:\n  %s", v.InstallHint())
+		return nil, fmt.Errorf("vlmbench not found on PATH\n\nTo install:\n  %s\n  or run: all-bench install vlmbench", v.InstallHint())
 	}
 
 	args := buildVLMArgs(cfg)

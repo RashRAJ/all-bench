@@ -6,8 +6,8 @@ A unified CLI wrapper for LLM benchmarking tools. Configure once in YAML, run an
 
 | Runner | Tool | Install |
 |--------|------|---------|
-| `aiperf` | [NVIDIA AIPerf](https://github.com/ai-dynamo/aiperf) — throughput & latency for text LLMs | `pip install aiperf` |
-| `vlmbench` | [vlmbench](https://github.com/vlm-run/vlmbench) — throughput & latency for VLMs and text LLMs | `pip install vlmbench` |
+| `aiperf` | [NVIDIA AIPerf](https://github.com/ai-dynamo/aiperf) — throughput & latency for text LLMs | `all-bench install aiperf` or `pip install aiperf` |
+| `vlmbench` | [vlmbench](https://github.com/vlm-run/vlmbench) — throughput & latency for VLMs and text LLMs | `all-bench install vlmbench` or `pip install vlmbench` |
 
 ## Requirements
 
@@ -42,6 +42,9 @@ all-bench --version
 
 # check which runners are installed
 all-bench list
+
+# install missing runners (or: all-bench install aiperf)
+all-bench install
 
 # run with all-bench.yaml in the current directory
 all-bench run
@@ -260,6 +263,7 @@ type Runner interface {
     Name()            string
     Available()       bool
     InstallHint()     string
+    PipPackage()      string   // PyPI package name, used by `all-bench install`
     HasNativeOutput() bool   // true = skip all-bench's table, use the tool's own output
     Run(cfg *config.Config) ([]*Result, error)
     // Called after Run() to collect raw profiler JSON for history/diff.
@@ -268,7 +272,7 @@ type Runner interface {
 }
 ```
 2. Add a section to `config.Config` for runner-specific fields
-3. Register it in `cmd/run.go` and `cmd/list.go`
+3. Register it in `cmd/run.go`, `cmd/list.go`, and `cmd/install.go`
 
 ## Project structure
 

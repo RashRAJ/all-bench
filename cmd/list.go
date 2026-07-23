@@ -26,6 +26,7 @@ var listCmd = &cobra.Command{
 				fmt.Printf("  %-12s %-10s\n", r.Name(), "installed")
 			} else {
 				fmt.Printf("  %-12s %-10s %s\n", r.Name(), "missing", r.InstallHint())
+				fmt.Printf("  %-12s %-10s or run: all-bench install %s\n", "", "", r.Name())
 			}
 		}
 		fmt.Println()

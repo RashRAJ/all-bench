@@ -40,6 +40,8 @@ type Runner interface {
 	Available() bool
 	// InstallHint returns a short install instruction shown when Available is false.
 	InstallHint() string
+	// PipPackage returns the PyPI package name to install this runner (used by `all-bench install`).
+	PipPackage() string
 	// HasNativeOutput returns true if the tool prints its own rich output.
 	// When true, all-bench skips its own table renderer in table mode.
 	HasNativeOutput() bool
