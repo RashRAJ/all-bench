@@ -83,6 +83,8 @@ aiperf:
   streaming: true
   request_rate: 32        # req/s, Poisson distribution
   request_count: 64       # total requests to send
+  # input_file: ./datasets/my_trace.jsonl   # use a custom dataset instead of synthesized prompts
+  # custom_dataset_type: single_turn        # single_turn | multi_turn | mooncake_trace | bailian_trace | baseten_trace | random_pool
 
 vlmbench:
   url: http://localhost:8001/v1
@@ -108,6 +110,8 @@ output:
 | `request_rate` | Requests/sec using Poisson distribution |
 | `concurrency` | Fixed concurrent workers (takes priority over `request_rate`) |
 | `request_count` | Total number of requests to send |
+| `input_file` | Path to a dataset file or directory to replay instead of synthesized prompts (also settable via `--input-file`) |
+| `custom_dataset_type` | Format of `input_file`: `single_turn` \| `multi_turn` \| `mooncake_trace` \| `bailian_trace` \| `baseten_trace` \| `random_pool` (also settable via `--custom-dataset-type`) |
 
 ### vlmbench options
 

@@ -74,6 +74,14 @@ func buildAiPerfArgs(cfg *config.Config) []string {
 		args = append(args, "--request-rate", fmt.Sprintf("%d", ap.RequestRate))
 	}
 
+	// custom dataset from a local file/dir instead of synthesized prompts
+	if ap.InputFile != "" {
+		args = append(args, "--input-file", ap.InputFile)
+		if ap.CustomDatasetType != "" {
+			args = append(args, "--custom-dataset-type", ap.CustomDatasetType)
+		}
+	}
+
 	return args
 }
 

@@ -27,6 +27,14 @@ type AiPerfConfig struct {
 	RequestRate  int    `yaml:"request_rate"`  // Poisson req/s
 	Concurrency  int    `yaml:"concurrency"`   // fixed workers; takes priority over request_rate
 	RequestCount int    `yaml:"request_count"`
+
+	// InputFile points aiperf at a custom dataset instead of synthesizing
+	// prompts. Requires CustomDatasetType to be set.
+	InputFile string `yaml:"input_file"` // path to a dataset file or directory
+
+	// CustomDatasetType tells aiperf how to parse InputFile.
+	// One of: single_turn | multi_turn | mooncake_trace | bailian_trace | baseten_trace | random_pool
+	CustomDatasetType string `yaml:"custom_dataset_type"`
 }
 
 type VLMBenchConfig struct {

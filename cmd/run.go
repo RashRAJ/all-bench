@@ -12,10 +12,12 @@ import (
 )
 
 var (
-	cfgFile     string
-	flagRunner  string
-	flagFormat  string
-	flagOutFile string
+	cfgFile           string
+	flagRunner        string
+	flagFormat        string
+	flagOutFile       string
+	flagInputFile     string
+	flagCustomDataset string
 )
 
 var runCmd = &cobra.Command{
@@ -29,6 +31,8 @@ func init() {
 	runCmd.Flags().StringVar(&flagRunner, "runner", "", "override runner (e.g. aiperf)")
 	runCmd.Flags().StringVar(&flagFormat, "format", "", "output format: table|json")
 	runCmd.Flags().StringVar(&flagOutFile, "out", "", "write results to file")
+	runCmd.Flags().StringVar(&flagInputFile, "input-file", "", "path to a dataset file/dir for aiperf (overrides aiperf.input_file)")
+	runCmd.Flags().StringVar(&flagCustomDataset, "custom-dataset-type", "", "aiperf dataset format: single_turn|multi_turn|mooncake_trace|bailian_trace|baseten_trace|random_pool")
 }
 
 func runBench(cmd *cobra.Command, args []string) error {
@@ -91,6 +95,12 @@ func runBench(cmd *cobra.Command, args []string) error {
 func applyOverrides(cfg *config.Config) {
 	if flagRunner != "" {
 		cfg.Runners = []string{flagRunner}
+	}
+	if flagInputFile != "" {
+		cfg.AiPerf.InputFile = flagInputFile
+	}
+	if flagCustomDataset != "" {
+		cfg.AiPerf.CustomDatasetType = flagCustomDataset
 	}
 }
 

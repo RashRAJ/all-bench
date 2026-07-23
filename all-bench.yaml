@@ -13,6 +13,8 @@ aiperf:
   streaming: true
   request_rate: 35
   request_count: 70
+  # input_file: ./datasets/my_trace.jsonl
+  # custom_dataset_type: single_turn
 
 vlmbench:
   url: http://localhost:8000/v1
